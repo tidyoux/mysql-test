@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B2D021171C76F6A4002998CB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2D021161C76F6A4002998CB /* main.cpp */; };
+		B2D021201C76FD5C002998CB /* DishMySQL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2D0211E1C76FD5C002998CB /* DishMySQL.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,9 @@
 /* Begin PBXFileReference section */
 		B2D021131C76F6A4002998CB /* mysql_test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mysql_test; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2D021161C76F6A4002998CB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		B2D0211E1C76FD5C002998CB /* DishMySQL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DishMySQL.cpp; sourceTree = "<group>"; };
+		B2D0211F1C76FD5C002998CB /* DishMySQL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DishMySQL.h; sourceTree = "<group>"; };
+		B2D021221C76FDFE002998CB /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,9 +61,28 @@
 		B2D021151C76F6A4002998CB /* mysql_test */ = {
 			isa = PBXGroup;
 			children = (
+				B2D021211C76FDFE002998CB /* common */,
+				B2D0211D1C76FD5C002998CB /* mysql */,
 				B2D021161C76F6A4002998CB /* main.cpp */,
 			);
 			path = mysql_test;
+			sourceTree = "<group>";
+		};
+		B2D0211D1C76FD5C002998CB /* mysql */ = {
+			isa = PBXGroup;
+			children = (
+				B2D0211E1C76FD5C002998CB /* DishMySQL.cpp */,
+				B2D0211F1C76FD5C002998CB /* DishMySQL.h */,
+			);
+			path = mysql;
+			sourceTree = "<group>";
+		};
+		B2D021211C76FDFE002998CB /* common */ = {
+			isa = PBXGroup;
+			children = (
+				B2D021221C76FDFE002998CB /* Common.h */,
+			);
+			path = common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,6 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2D021201C76FD5C002998CB /* DishMySQL.cpp in Sources */,
 				B2D021171C76F6A4002998CB /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -207,6 +231,14 @@
 		B2D0211B1C76F6A4002998CB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				HEADER_SEARCH_PATHS = /usr/local/mysql/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/mysql/lib;
+				OTHER_LDFLAGS = (
+					"-lmysqlclient",
+					"-lm",
+					"-lz",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -214,6 +246,14 @@
 		B2D0211C1C76F6A4002998CB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				HEADER_SEARCH_PATHS = /usr/local/mysql/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/mysql/lib;
+				OTHER_LDFLAGS = (
+					"-lmysqlclient",
+					"-lm",
+					"-lz",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -237,6 +277,7 @@
 				B2D0211C1C76F6A4002998CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
