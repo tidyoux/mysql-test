@@ -1,22 +1,17 @@
-#ifndef __dish_MySQL_h__
-#define __dish_MySQL_h__
+#ifndef __MySqlWrapper_h__
+#define __MySqlWrapper_h__
 
-#ifndef WIN32
-#include <netinet/in.h>
-#else
-#include <winsock2.h>
-#endif
 
 #include <mysql.h>
 #include <string>
 #include "../common/Common.h"
 
 
-class DBMysql
+class MySqlWrapper
 {
 public:
-    DBMysql( void );
-    ~DBMysql( void );
+    MySqlWrapper();
+    ~MySqlWrapper();
 public:
     bool connect();
     void Destroy( void );
@@ -77,4 +72,4 @@ private:
 
 
 
-#endif//__dish_MySQL_h__
+#endif//__MySqlWrapper_h__

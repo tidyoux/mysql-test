@@ -8,13 +8,13 @@
 
 #include <iostream>
 #include <sstream>
-#include "DishMySQL.h"
+#include "MySqlWrapper.h"
 
 #define log(s) \
     std::cout << s << std::endl;
 
 int main(int argc, const char * argv[]) {
-    DBMysql sql;
+    MySqlWrapper sql;
     if(sql.connect())
     {
         // list

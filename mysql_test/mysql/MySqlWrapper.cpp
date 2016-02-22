@@ -1,4 +1,4 @@
-#include "DishMySQL.h"
+#include "MySqlWrapper.h"
 #include <iostream>
 
 #define logE(s) \
@@ -20,7 +20,7 @@ inline int ___atoi(const char* szNumber)
 //		return 0;
 //}
 
-DBMysql::DBMysql( void )
+MySqlWrapper::MySqlWrapper( void )
 : m_mysql( 0 ),
 m_curResult( 0 ),
 m_curRow( 0 ),
@@ -30,17 +30,17 @@ m_fields(NULL)
     
 }
 
-DBMysql::~DBMysql( void )
+MySqlWrapper::~MySqlWrapper( void )
 {
     Destroy();
 }
 
-bool DBMysql::connect()
+bool MySqlWrapper::connect()
 {
     return Create();
 }
 
-bool DBMysql::Create( void )
+bool MySqlWrapper::Create( void )
 {
     if ( !m_mysql )
     {
@@ -68,13 +68,13 @@ bool DBMysql::Create( void )
 }
 
 
-void DBMysql::Destroy( void )
+void MySqlWrapper::Destroy( void )
 {
     mysql_close(m_mysql);
     m_mysql = NULL;
 }
 
-int DBMysql::EscapeString( char * to, const char * from )
+int MySqlWrapper::EscapeString( char * to, const char * from )
 {
     if ( m_mysql )
         return (int)mysql_real_escape_string( m_mysql, to, from ,(unsigned long)strlen( from ) );
@@ -82,7 +82,7 @@ int DBMysql::EscapeString( char * to, const char * from )
         return 0;
 }
 
-int DBMysql::EscapeString( char * to , const void * from )
+int MySqlWrapper::EscapeString( char * to , const void * from )
 {
     if ( m_mysql )
         return (int)mysql_real_escape_string( m_mysql, to, (const char *)from, (unsigned long)strlen( (const char *)from ) );
@@ -90,7 +90,7 @@ int DBMysql::EscapeString( char * to , const void * from )
         return 0;
 }
 
-int DBMysql::Query( const char * sql )
+int MySqlWrapper::Query( const char * sql )
 {
     if (!m_mysql)
     {
@@ -188,23 +188,23 @@ int DBMysql::Query( const char * sql )
     return m_nCurRows;
 }
 
-int32 DBMysql::getRowCount() const
+int32 MySqlWrapper::getRowCount() const
 {
     return m_nCurRows;
 }
 
-bool DBMysql::GetRow( void )
+bool MySqlWrapper::GetRow( void )
 {
     m_curRow = mysql_fetch_row( m_curResult );
     return (m_curRow != NULL) && (*m_curRow != NULL);
 }
 
-uint32 DBMysql::getFieldCount() const
+uint32 MySqlWrapper::getFieldCount() const
 {
     return mysql_num_fields(m_curResult);
 }
 
-//void DBMysql::GetField( UINT64 &data, int idx )
+//void MySqlWrapper::GetField( UINT64 &data, int idx )
 //{
 //    if ( m_curRow )
 //        data = (UINT64)( ___atoi64( m_curRow[idx] ) & 0xffffffffffffffff );
@@ -212,7 +212,7 @@ uint32 DBMysql::getFieldCount() const
 //        data = 0;
 //}
 
-//void DBMysql::GetField( INT64 &data, int idx )
+//void MySqlWrapper::GetField( INT64 &data, int idx )
 //{
 //    if ( m_curRow )
 //        data = (INT64)( ___atoi64( m_curRow[idx] ) & 0xffffffffffffffff );
@@ -220,7 +220,7 @@ uint32 DBMysql::getFieldCount() const
 //        data = 0;
 //}
 
-void DBMysql::GetField( uint32 &data, int idx )
+void MySqlWrapper::GetField( uint32 &data, int idx )
 {
     if ( m_curRow )
         data = (uint32)( ___atoi( m_curRow[idx] ) & 0xffffffff );
@@ -228,7 +228,7 @@ void DBMysql::GetField( uint32 &data, int idx )
         data = 0;
 }
 
-void DBMysql::GetField( int32 &data, int idx )
+void MySqlWrapper::GetField( int32 &data, int idx )
 {
     if ( m_curRow )
         data = (int32)( ___atoi( m_curRow[idx] ) & 0xffffffff );
@@ -236,7 +236,7 @@ void DBMysql::GetField( int32 &data, int idx )
         data = 0;
 }
 
-void DBMysql::GetField( uint16 &data, int idx )
+void MySqlWrapper::GetField( uint16 &data, int idx )
 {
     if ( m_curRow )
         data = (uint16)( ___atoi( m_curRow[idx] ) & 0xffff );
@@ -244,7 +244,7 @@ void DBMysql::GetField( uint16 &data, int idx )
         data = 0;
 }
 
-void DBMysql::GetField( int16 &data, int idx )
+void MySqlWrapper::GetField( int16 &data, int idx )
 {
     if ( m_curRow )
         data = (int16)( ___atoi( m_curRow[idx] ) & 0xffff );
@@ -252,7 +252,7 @@ void DBMysql::GetField( int16 &data, int idx )
         data = 0;
 }
 
-void DBMysql::GetField( uint8 &data, int idx )
+void MySqlWrapper::GetField( uint8 &data, int idx )
 {
     if ( m_curRow )
         data = (uint8)( ___atoi( m_curRow[idx] ) & 0xff );
@@ -260,7 +260,7 @@ void DBMysql::GetField( uint8 &data, int idx )
         data = 0;
 }
 
-void DBMysql::GetField( int8 &data, int idx )
+void MySqlWrapper::GetField( int8 &data, int idx )
 {
     if ( m_curRow )
         data = (int8)( ___atoi( m_curRow[idx] ) & 0xff );
@@ -268,7 +268,7 @@ void DBMysql::GetField( int8 &data, int idx )
         data = 0;
 }
 
-void DBMysql::GetField( bool &data, int idx )
+void MySqlWrapper::GetField( bool &data, int idx )
 {
     if ( m_curRow )
         data = 0!=(___atoi( m_curRow[idx] ) & 0xff );
@@ -276,7 +276,7 @@ void DBMysql::GetField( bool &data, int idx )
         data = false;
 }
 
-void DBMysql::GetField( char &data, int idx )
+void MySqlWrapper::GetField( char &data, int idx )
 {
     if ( m_curRow )
         data = (char)( ___atoi( m_curRow[idx] ) & 0xff );
@@ -284,21 +284,18 @@ void DBMysql::GetField( char &data, int idx )
         data = 0;
 }
 
-void DBMysql::GetField( void * buffer, unsigned long &len, int idx )
+void MySqlWrapper::GetField( void * buffer, unsigned long &len, int idx )
 {
     len = 0;
     if ( m_curRow && m_fields )
     {
-        //len = m_fields[idx].max_length;
         len = *mysql_fetch_lengths(m_curResult);
         memcpy( buffer, m_curRow[idx], len );
     }
 }
 
-void DBMysql::GetField( char * &szString, uint32 &len, int idx )
+void MySqlWrapper::GetField( char * &szString, uint32 &len, int idx )
 {
-    // 	if ( m_curRow )
-    // 		memcpy( szString, m_curRow[idx], len );
     if (m_curRow[idx] != NULL)
     {
         unsigned long *FieldLength = mysql_fetch_lengths(m_curResult);
@@ -307,7 +304,7 @@ void DBMysql::GetField( char * &szString, uint32 &len, int idx )
     }
 }
 
-void DBMysql::GetField( std::string& str, int idx )
+void MySqlWrapper::GetField( std::string& str, int idx )
 {
     if ( m_curRow )
     {
@@ -316,12 +313,12 @@ void DBMysql::GetField( std::string& str, int idx )
     }
 }
 
-void DBMysql::FreeResult( void )
+void MySqlWrapper::FreeResult( void )
 {
     mysql_free_result( m_curResult );
 }
 
-bool DBMysql::realEscapeString( char *to, char *from, unsigned long len )
+bool MySqlWrapper::realEscapeString( char *to, char *from, unsigned long len )
 {
     if (!m_mysql)
         return false;
@@ -330,17 +327,17 @@ bool DBMysql::realEscapeString( char *to, char *from, unsigned long len )
     return true;
 }
 
-void DBMysql::Ping()
+void MySqlWrapper::Ping()
 {
     mysql_ping(m_mysql);
 }
 
-void DBMysql::AutoCommit(char idx)
+void MySqlWrapper::AutoCommit(char idx)
 {
     mysql_autocommit(m_mysql, idx);
 }
 
-void DBMysql::Commit()
+void MySqlWrapper::Commit()
 {
     mysql_commit(m_mysql);
 }
